@@ -1,0 +1,31 @@
+{
+  "name": "blog-api",
+  "version": "0.0.1",
+  "description": "Toy blog API to demo basic RESTFul transactions",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danrounds/node-blog-API.git"
+  },
+  "keywords": [
+    "REST",
+    "node.js",
+    "blog"
+  ],
+  "author": "Dan Rounds + Thinkful.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danrounds/node-blog-API/issues"
+  },
+  "homepage": "https://github.com/danrounds/node-blog-API#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "uuid": "^3.0.1"
+  }
+}
