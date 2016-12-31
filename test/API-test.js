@@ -44,4 +44,26 @@ describe('Blog API', function() {
             });
     });
 
+    // POST request test -- strategy:
+    //  1. make POST request with data for new blog entry
+    //  2. examine response for status, correct keys, and that returned JSON
+    //     has an id
+    it('should add a blog entry on POST', function() {
+        const newPost = {title: 'title', content: 'content', author:'author', publishDate:'date'};
+        return chai.request(app)
+            .post('/blog-posts')
+            .send(newPost)
+            .then(function(res) {
+                res.should.have.status(201);
+                res.should.be.json;
+                res.body.should.be.a('object');
+                res.body.should.include.keys(expectedKeys);
+                res.body.id.should.not.be.null;
+                // `res.body' should be identical to `newRecipe', once we add
+                // the relevant `id' to `newRecipe'  \/
+                res.body.should.deep.equal(Object.assign(newPost, {id: res.body.id}));
+            });
+
+    });
+
 })

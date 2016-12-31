@@ -32,7 +32,7 @@ router.post('/', jsonParser, (req, res) => {
     }
     let b = req.body;
     const post = BlogPosts.create(b.title, b.content, b.author, b.publishDate);
-    res.status(200).json(post);
+    res.status(201).json(post);
 });
 
 router.put('/:id', jsonParser, (req, res) => {
