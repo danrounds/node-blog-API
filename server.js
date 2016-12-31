@@ -13,6 +13,44 @@ app.use(morgan('common'));
 //handles our CRUD
 app.use('/blog-posts', blogPostsRouter);
 
-app.listen(process.env.PORT || 8080, () => {
-    console.log(`Your app's listening on port ${process.env.PORT || 8080}`);
-});
+// runServer and closeServer exist primarily for test purposes. The server
+// object here is to that end
+let server;
+
+// starts our server and returns a promise.
+function runServer() {
+    const port = process.env.PORT || 8080;
+    return new Promise((resolve, reject) => {
+        try {
+            server = app.listen(port, () => {
+                console.log(`Your app is listening on port ${port}`);
+                resolve();
+            });
+        } catch (err) {
+            reject(err);
+        }
+    });
+}
+
+// closes server; returns a promise
+function closeServer() {
+    return new Promise((resolve, reject) => {
+        console.log('Closing server');
+        server.close(err => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve();
+        });
+    });
+}
+
+// if server.js is called directly (i.e, with `node server.js`), this block
+// runs but we also export the runServer command so other code (for instance,
+// test code) can start the server as needed.
+if (require.main === module) {
+    runServer().catch(err => console.error(err));
+}
+
+module.exports = {app, runServer, closeServer};

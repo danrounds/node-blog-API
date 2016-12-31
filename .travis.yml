@@ -1,2 +1,9 @@
 language: node_js
 node_js: node
+deploy:
+  provider: heroku
+  api_key:
+    secure: vXaBad5SVedQJ8iPMxmzmTelcvOeRWvPfZqehewi/l9APFO9Cu0fH9I2ec3bSm+LjhxeNW+sUwYBnHrHmWulmRK7F2hyBNbZh9oXlaYH5gTjnBXtrmLsxlHekruZtGjV7evTidYAyscXfxsEuADDA/UA8SZ8azTz+he+jXsVh4uwlJtEdvIDuy0FWVsuefscgljmU/N6KXu+BZoxYKq/eU1KB5m1CNC0CYYiknMWjGnz5wnIPDrvULchp6h4iHFsKnc9GvBWk1Ke1eDp8oL+zces5DjtUlKH36L+v99BvNPqkToxpeXCqFA2bHL1GT3DeqXbOn8Ig2+c2jvPEE8ceo7Ec50eV+pE5gd8TNTHyY1m1vvcVMQr7AgchGpnTOfwRhg8Tvl5JtD0IltnVxzaL6FOcgu/tXo/KgPpf4bze78NZjDwU1aJ3lHQX+XgJUQ73oAYxWJTb5LderMf+4jKQIB128K353fTuUqxuuLvwCAZhwqi/gLKmR7xeO4WxhvTnwNz55m/6tGkVpYaMOBz/2NyMKR6mYx66tTd6p5uHGpyHwbNCHX2gEaV1GBpPMemRKRoBOjDBIzf4uOVpcBR1+zNhlJBhLB+7M08WODAJNB9muFNBquH1DjHnr3aIzoAMWCQ2p73BJ1oqNKNmX8Z+WVwY5wAny6Fo619cp6UOR0=
+  app: https://git.heroku.com/damp-brook-23618.git
+  on:
+    repo: danrounds/node-blog-API
