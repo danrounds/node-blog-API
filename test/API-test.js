@@ -23,6 +23,7 @@ describe('Blog API', function() {
     });
 
     const expectedKeys = ['id', 'title', 'content', 'author', 'publishDate'];
+    const newPost = {title: 'title', content: 'content', author:'author', publishDate:'date'};
 
     // GET request test -- strategy:
     //  1. make GET request
@@ -49,7 +50,6 @@ describe('Blog API', function() {
     //  2. examine response for status, correct keys, and that returned JSON
     //     has an id
     it('should add a blog entry on POST', function() {
-        const newPost = {title: 'title', content: 'content', author:'author', publishDate:'date'};
         return chai.request(app)
             .post('/blog-posts')
             .send(newPost)
@@ -63,7 +63,31 @@ describe('Blog API', function() {
                 // the relevant `id' to `newRecipe'  \/
                 res.body.should.deep.equal(Object.assign(newPost, {id: res.body.id}));
             });
-
     });
 
-})
+    // PUT request test -- strategy:
+    //  1. make a GET request, so we can get an item to update (the 0th item
+    //     returned)
+    //  2. add GET's `res.body[0].id' to `updateData'
+    //  3. make the PUT request with our completed `updateData'
+    //  4. inspect the response for status code and to make sure PUT's res.body
+    //     is identical to `updateData'
+    it('should update blog posts on PUT', function() {
+        const updateData = newPost;
+        return chai.request(app)
+            .get('/blog-posts')
+            .then(function(res) {
+                updateData.id = res.body[0].id;
+                return chai.request(app)
+                    .put(`/blog-posts/${updateData.id}`)
+                    .send(updateData);
+            })
+            .then(function(res) {
+                res.should.have.status(200);
+                res.should.be.json;
+                res.body.should.be.a('object');
+                // PUT's res.body needs to be identical to `updateData'
+                res.body.should.deep.equal(updateData);
+            });
+    });
+});
