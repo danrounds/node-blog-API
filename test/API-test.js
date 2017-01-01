@@ -90,4 +90,21 @@ describe('Blog API', function() {
                 res.body.should.deep.equal(updateData);
             });
     });
+
+    // DELETE request test -- strategy:
+    //  1. make a GET request, so we can get the `id' of an item to delete
+    //     (0th item's `id')
+    //  2. make DELETE request, with the relevant `id' as the resource, and
+    //     check that status is 204
+    it('should delete items on DELETE', function() {
+        return chai.request(app)
+            .get('/blog-posts')
+            .then(function(res) {
+                return chai.request(app)
+                    .delete(`/blog-posts/${res.body[0].id}`);
+            })
+            .then(function(res) {
+                res.should.have.status(204);
+            });
+    });
 });
