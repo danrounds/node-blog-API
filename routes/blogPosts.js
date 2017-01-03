@@ -3,21 +3,45 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
-const {BlogPosts} = require('../models');
+const mongoose = require('mongoose');
 
-// Need some data to display. Dates are not in any kind of uniform format.
-BlogPosts.create('Why So Many?', 'Have you ever noticed there\'s tons of? Well there is. Here\'s why:', 'Dave Stevens', 'Oct 9, 2015');
-BlogPosts.create('Red is the Best Color', 'Objective science have proved--using the tools of science--that red is, objectively, the best color. Objectively. Science', 'Jack O\'Lantern', 'Oct 11, 1999');
-BlogPosts.create('How to Drink More Water', 'Some people say water is gross. Maybe they\'re right. Maybe they\'re wrong. One thing that\'s for sure is water.', 'Arthur Curry', 'Nov 13, 2015');
-BlogPosts.create('How to Add Single Digit Numbers', 'What is "addition," anyway? This article won\'t answer that. We don\'t have the tools. What we do have is a sure-fire way for you to rote-memorize your addition table, in base-10!', 'Jill Nye', 'Jun 27, 2016');
+const {BlogPost} = require('../models');
 
 
 router.get('/', (req, res) => {
-    res.json(BlogPosts.get());
+    // res.json(BlogPosts.get());
+    BlogPost
+        .find()
+        .limit(10)
+    // `exec` returns BlogPosts.find.limit(10) as a promise
+        .exec()
+        .then(blogPosts => {
+            res.json({
+                blogPosts: blogPosts.map((post) => post.apiRepr())
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({message: 'Internal server error'});
+        });
 });
 
 router.get('/:id', jsonParser, (req, res) => {
-    res.json(BlogPosts.get(req.params.id));
+    // res.json(BlogPosts.get(req.params.id));
+    BlogPost
+        .find()
+        .limit(10)
+        // `exec` returns BlogPosts.find.limit(10) as a promise
+        .exec()
+        .then(blogPosts => {
+            res.json({
+                blogPosts: blogPosts.map((post) => post.apiRepr())
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({message: 'Internal server error'});
+        });
 });
 
 router.post('/', jsonParser, (req, res) => {
