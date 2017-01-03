@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const morgan = require('morgan');
-const bodyParser = require('body-parser');
+// const bodyParser = require('body-parser');
+
+const mongoose = require('mongoose');
+const {PORT, DATABASE_URL} = require('./config');
+const blogPostsRouter = require('./routes/blogPosts');
 
 const app = express();
-
-const blogPostsRouter = require('./routes/blogPosts');
 
 // basic logging of HTTP transactions
 app.use(morgan('common'));
@@ -18,17 +20,22 @@ app.use('/blog-posts', blogPostsRouter);
 let server;
 
 // starts our server and returns a promise.
-function runServer() {
-    const port = process.env.PORT || 8080;
+function runServer(databaseUrl=DATABASE_URL, port=PORT) {
+    
     return new Promise((resolve, reject) => {
-        try {
+        mongoose.connect(databaseUrl, err => {
+            if (err) {
+                return reject(err);
+            }
             server = app.listen(port, () => {
                 console.log(`Your app is listening on port ${port}`);
                 resolve();
-            });
-        } catch (err) {
-            reject(err);
-        }
+            })
+                .on('error', err => {
+                    mongoose.disconnect();
+                    reject(err);
+                });
+        });
     });
 }
 
