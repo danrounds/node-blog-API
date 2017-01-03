@@ -9,7 +9,6 @@ const {BlogPost} = require('../models');
 
 
 router.get('/', (req, res) => {
-    // res.json(BlogPosts.get());
     BlogPost
         .find()
         .limit(10)
@@ -17,7 +16,7 @@ router.get('/', (req, res) => {
         .exec()
         .then(blogPosts => {
             res.json({
-                blogPosts: blogPosts.map((post) => post.apiRepr())
+                blogPosts: blogPosts.map((blogPost) => blogPost.apiRepr())
             });
         })
         .catch(err => {
@@ -29,15 +28,10 @@ router.get('/', (req, res) => {
 router.get('/:id', jsonParser, (req, res) => {
     // res.json(BlogPosts.get(req.params.id));
     BlogPost
-        .find()
-        .limit(10)
+        .findById(req.params.id)
         // `exec` returns BlogPosts.find.limit(10) as a promise
         .exec()
-        .then(blogPosts => {
-            res.json({
-                blogPosts: blogPosts.map((post) => post.apiRepr())
-            });
-        })
+        .then(blogPost => res.json(blogPost.apiRepr()))
         .catch(err => {
             console.error(err);
             res.status(500).json({message: 'Internal server error'});
