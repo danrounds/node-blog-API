@@ -1,3 +1,9 @@
+// This is our database schema and "object model."
+// Core parts are:
+//  1. Schema (`blogPostSchema')
+//  2. A JSON representation of our individual database entries, which our API
+//     will return
+
 const mongoose = require('mongoose');
 
 const blogPostSchema = mongoose.Schema({
