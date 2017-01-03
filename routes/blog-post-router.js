@@ -90,9 +90,11 @@ router.put('/:id', jsonParser, (req, res) => {
 });
 
 router.delete('/:id', (req, res) => {
-    BlogPost.delete(req.params.id);
-    console.log(`Blog post \`${req.params.id}'`);
-    res.status(204).end();
+    BlogPost
+        .findByIdAndRemove(req.params.id)
+        .exec()
+        .then(blogPost => res.status(204).end())
+        .catch(err => res.status(500).json({message: 'Internal server error'}));
 });
 
 module.exports = router;
