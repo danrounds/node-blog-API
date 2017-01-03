@@ -5,7 +5,7 @@ const morgan = require('morgan');
 
 const mongoose = require('mongoose');
 const {PORT, DATABASE_URL} = require('./config');
-const blogPostsRouter = require('./routes/blogPosts');
+const blogPostRouter = require('./routes/blog-post-router');
 
 const app = express();
 
@@ -13,7 +13,7 @@ const app = express();
 app.use(morgan('common'));
 
 //handles our CRUD
-app.use('/blog-posts', blogPostsRouter);
+app.use('/blog-posts', blogPostRouter);
 
 // runServer and closeServer exist primarily for test purposes. The server
 // object here is to that end
